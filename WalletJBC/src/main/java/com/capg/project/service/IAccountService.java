@@ -1,20 +1,19 @@
 package com.capg.project.service;
 
-
-
 import com.capg.project.bean.AccountDetails;
 
 public interface IAccountService {
 	public boolean createAccount(AccountDetails account);
 
-	public boolean depositBalance(int deposit, AccountDetails account);
+	public int depositBalance(int deposit);
 
-	public void showBalance(AccountDetails account);
+	public int showBalance();
 
-	public boolean withdrawBalance(int withdraw, AccountDetails account);
+	public int withdrawBalance(int withdraw);
 
-	public boolean FundTransfer(long accountNumber, AccountDetails account);
+	public int FundTransfer(long accountNumber, int amount);
 
 	public void PrintTransaction(AccountDetails account);
-}
 
+	public boolean login(String username, String passowrd);
+}

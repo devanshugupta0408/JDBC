@@ -4,5 +4,5 @@ import com.capg.project.bean.AccountDetails;
 import com.capg.project.bean.CustomerDetails;
 
 public interface ICustomerDAO {
-	public boolean createAccount(CustomerDetails customer);
+	public boolean createAccount(AccountDetails account);
 }

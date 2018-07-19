@@ -1,14 +1,10 @@
 package com.capg.project.service;
 
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.capg.project.bean.AccountDetails;
-import com.capg.project.dao.AccountDAO;
-
 public class AccountValidation {
-	
+
 	private Pattern pattern;
 	private Matcher matcher;
 	private static final String phoneNumber_Pattern = "^[6-9]\\d{9}$";
@@ -66,14 +62,15 @@ public class AccountValidation {
 			return false;
 	}
 
-	/*public AccountDetails validateLogin(String username, String password) {
-
-		for (AccountDetails d : AccountDAO.list) {
-			if ((username.equals(d.getUsername()) && password.equals(d.getPassword())))
-
-				return d;
-
-		}
-		return null;
-
-	}*/}
+	/*
+	 * public AccountDetails validateLogin(String username, String password) {
+	 * 
+	 * for (AccountDetails d : AccountDAO.list) { if
+	 * ((username.equals(d.getUsername()) && password.equals(d.getPassword())))
+	 * 
+	 * return d;
+	 * 
+	 * } return null;
+	 * 
+	 * }
+	 */}

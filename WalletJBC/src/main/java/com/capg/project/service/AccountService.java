@@ -1,10 +1,7 @@
 package com.capg.project.service;
 
-
-
 import com.capg.project.bean.AccountDetails;
 import com.capg.project.dao.AccountDAO;
-
 
 public class AccountService implements IAccountService {
 
@@ -14,35 +11,31 @@ public class AccountService implements IAccountService {
 		return dao.createAccount(account);
 	}
 
-
-	
-	public boolean depositBalance(int deposit,AccountDetails account) {
-		return dao.depositBalance(deposit, account);
-		}
-	
-	public void showBalance(AccountDetails account) {
-
-		dao.showBalance(account);
-
-}
-
-
-	public boolean withdrawBalance(int withdraw,AccountDetails account) {
-		return dao.withdrawBalance(withdraw, account);
-	}
-	public boolean FundTransfer(long accountNumber, AccountDetails account) {
-		return dao.FundTransfer(accountNumber, account);
+	public boolean login(String username, String passowrd) {
+		return dao.login(username, passowrd);
 	}
 
+	public int depositBalance(int deposit) {
+		return dao.depositBalance(deposit);
+	}
 
+	public int showBalance() {
+
+		return dao.showBalance();
+
+	}
+
+	public int withdrawBalance(int withdraw) {
+		return dao.withdrawBalance(withdraw);
+	}
+
+	public int FundTransfer(long accountNumber, int amount) {
+		return dao.FundTransfer(accountNumber, amount);
+	}
 
 	public void PrintTransaction(AccountDetails account) {
 		// TODO Auto-generated method stub
-		
-	}
-
-
-
 
 	}
 
+}

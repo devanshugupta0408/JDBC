@@ -3,8 +3,6 @@ package com.capg.project.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.capg.project.bean.AccountDetails;
@@ -16,6 +14,10 @@ import com.capg.project.service.CustomerService;
 public class Client {
 	static boolean k;
 	static boolean b;
+	static boolean login;
+	static int value;
+
+	static String transaction;
 
 	public static void main(String[] args) {
 		AccountValidation valid = new AccountValidation();
@@ -24,8 +26,6 @@ public class Client {
 		CustomerService cuservice = new CustomerService();
 
 		while (true) {
-
-			List<String> list = new ArrayList<String>();
 
 			AccountDetails account = new AccountDetails();
 			CustomerDetails customer = new CustomerDetails();
@@ -118,17 +118,17 @@ public class Client {
 					customer.setGender(gender);
 					customer.setPhoneNumber(phoneNumber);
 					account.setAccountNumber(accountNumber);
-
+					account.setCustomerDetails(customer);
 
 					if (isphoneNumber && iscustomerEmail && ispassword && isusername) {
 						{
-						b = acservice.createAccount(account);
-						b= cuservice.createAccount(customer);
-						System.out.println("Account Created Successfully");
+							b = acservice.createAccount(account);
+							b = cuservice.createAccount(account);
+							System.out.println("Account Created Successfully");
 
-						System.out.println("Your account number is " + accountNumber);
-					} 
-					}else {
+							System.out.println("Your account number is " + accountNumber);
+						}
+					} else {
 						System.out.println("Invalid");
 					}
 					break;
@@ -138,11 +138,12 @@ public class Client {
 					System.out.println("Enter password1");
 					String password1 = br.readLine();
 
-					//account = valid.validateLogin(username1, password1);
-					while (account != null) {
+					login = acservice.login(username1, password1);
+					while (login != false) {
 						System.out.println("*****WELCOME*****");
-						//System.out.println("Name: " + account.getCustomerDetails().getCustomerName());
-						System.out.println("Account Number: " + account.getAccountNumber());
+						// System.out.println("Name: " +
+						// account.getCustomerDetails().getCustomerName());
+						// System.out.println("Account Number: ");
 						System.out.println("1.Show Balance");
 						System.out.println("2.Deposit");
 						System.out.println("3.Withdraw");
@@ -154,7 +155,8 @@ public class Client {
 						switch (options) {
 
 						case 1:
-							System.out.println(account.getBalance());
+
+							System.out.println("Balance: " + acservice.showBalance());
 							break;
 						case 2:
 							System.out.println("Enter amount to deposit");
@@ -163,41 +165,53 @@ public class Client {
 								System.out.println("Invalid Input");
 
 							else {
-							//	service.depositBalance(deposit, account);
-								System.out.println("Amount Deposited");
+								value = acservice.depositBalance(deposit);
+								if (value != 0)
+									System.out.println("Deposited");
+
+								else
+									System.out.println("Something went wrong. Please try again");
 							}
+							transaction = deposit + " credited";
+							// transactionService.addTransactions(trans);
 							break;
 
 						case 3:
 							System.out.println("Enter amount to withdraw");
 							int withdraw = sc.nextInt();
+							if (withdraw < 0)
+								System.out.println("Invalid Input");
 
-						//	if (service.withdrawBalance(withdraw, account) != false) {
+							else {
+								value = acservice.withdrawBalance(withdraw);
+								if (value != 0)
+									System.out.println("Amount Successfuly Withdrawn");
 
-								System.out.println("Amount Successfuly Withdrawn");
+								else
+									System.out.println("Insufficient Funds!");
+							}
 
-						//	} else {
-								System.err.println("Insufficient Funds!");
-							//}
 							break;
 
 						case 4:
 							System.out.println("Enter the account number to which you want to Trasnfer money");
 							accountNumber = sc.nextLong();
-							if (accountNumber == account.getAccountNumber()) {
-								System.out.println("Donot Enter your account number");
-								break;
-							}
-						//	service.FundTransfer(accountNumber, account);
-
+							System.out.println("Enter amount you want to transfer");
+							int transferAmount = sc.nextInt();
+							value = acservice.FundTransfer(accountNumber, transferAmount);
+							// service.FundTransfer(accountNumber, account);
+							if (value != 0)
+								System.out.println("Successful");
+							else
+								System.out.println("failed");
 							break;
 						case 5:
 
-							//service.PrintTransaction(account);
+							// service.PrintTransaction(account);
 							break;
 
 						case 6:
-							account = null;
+							login = false;
 						}
 					}
 					break;
