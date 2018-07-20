@@ -14,4 +14,7 @@ public interface IAccountDAO {
 	public int withdrawBalance(int withdraw);
 
 	public int FundTransfer(long accountNumber, int amount);
+	public void printTransactions();
+	
+	
 }

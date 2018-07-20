@@ -15,6 +15,7 @@ public class AccountDAO implements IAccountDAO {
 	int value;
 	int bal;
 	static int accountNumber;
+	Connection conn;
 	Scanner sc = new Scanner(System.in);
 
 	public boolean login(String username, String password) {
@@ -29,6 +30,7 @@ public class AccountDAO implements IAccountDAO {
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				accountNumber = rs.getInt("accountNumber");
+				
 				return true;
 			}
 		} catch (SQLException e) {
@@ -71,6 +73,10 @@ public class AccountDAO implements IAccountDAO {
 			PreparedStatement pstmt = con.prepareStatement(Query);
 			pstmt.setInt(1, deposit);
 			pstmt.setLong(2, accountNumber);
+			String transaction = "Deposited: " + deposit;
+			String QueryT = "insert into transaction values("+accountNumber+",'"+transaction+"')";
+			PreparedStatement pstmt1 = con.prepareStatement(QueryT);
+			pstmt1.executeUpdate();
 			value = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -140,6 +146,11 @@ public class AccountDAO implements IAccountDAO {
 				recieverPstmt.setLong(1, ReceiverAccountNumber);
 				senderPstmt.setInt(1, amount);
 				senderPstmt.setLong(2, accountNumber);
+				String transaction = "Transferred: " + amount + " to "+ ReceiverAccountNumber ;
+				String QueryT = "insert into transaction values("+accountNumber+",'"+transaction+"')";
+				PreparedStatement pstmt1 = con.prepareStatement(QueryT);
+				pstmt1.executeUpdate();
+				
 
 				ResultSet rs = recieverPstmt.executeQuery();
 				while (rs.next()) {
@@ -147,13 +158,20 @@ public class AccountDAO implements IAccountDAO {
 
 					String recieverQuery1 = "update Account SET balance=balance+? where accountNumber=?";
 					PreparedStatement recieverPstmt1 = con.prepareStatement(recieverQuery1);
-
+					
+					
 					recieverPstmt1.setInt(1, amount);
 					recieverPstmt1.setLong(2, ReceiverAccountNumber);
 
+				
 					recieverPstmt1.executeUpdate();
 
 					value = senderPstmt.executeUpdate();
+				
+					String transaction1 = "Received: " + amount + " from "+ accountNumber;
+					String QueryR = "insert into transaction values("+ReceiverAccountNumber+",'"+transaction1+"')";
+					PreparedStatement pstmt2 = con.prepareStatement(QueryR);
+					pstmt2.executeUpdate();
 
 				}
 			} else
@@ -169,4 +187,33 @@ public class AccountDAO implements IAccountDAO {
 		return value;
 	}
 
+	public void printTransactions() {
+
+		try {
+
+			 conn = JdbcUtil.getConection();
+			String Query = "select * from transaction where accountNumber=?";
+			PreparedStatement pstmt = conn.prepareStatement(Query);
+			pstmt.setLong(1, accountNumber);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				System.out.println(rs.getString("transactions"));
+			}
+		}
+
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		finally {
+
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
 }

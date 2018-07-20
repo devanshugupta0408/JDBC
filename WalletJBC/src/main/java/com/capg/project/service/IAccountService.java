@@ -13,7 +13,8 @@ public interface IAccountService {
 
 	public int FundTransfer(long accountNumber, int amount);
 
-	public void PrintTransaction(AccountDetails account);
+
 
 	public boolean login(String username, String passowrd);
+	public void printTransaction();
 }

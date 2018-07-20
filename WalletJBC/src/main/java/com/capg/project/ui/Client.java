@@ -11,6 +11,7 @@ import com.capg.project.service.AccountService;
 import com.capg.project.service.AccountValidation;
 import com.capg.project.service.CustomerService;
 
+
 public class Client {
 	static boolean k;
 	static boolean b;
@@ -24,7 +25,7 @@ public class Client {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		AccountService acservice = new AccountService();
 		CustomerService cuservice = new CustomerService();
-
+	
 		while (true) {
 
 			AccountDetails account = new AccountDetails();
@@ -124,6 +125,7 @@ public class Client {
 						{
 							b = acservice.createAccount(account);
 							b = cuservice.createAccount(account);
+					
 							System.out.println("Account Created Successfully");
 
 							System.out.println("Your account number is " + accountNumber);
@@ -172,8 +174,7 @@ public class Client {
 								else
 									System.out.println("Something went wrong. Please try again");
 							}
-							transaction = deposit + " credited";
-							// transactionService.addTransactions(trans);
+							
 							break;
 
 						case 3:
@@ -184,9 +185,10 @@ public class Client {
 
 							else {
 								value = acservice.withdrawBalance(withdraw);
-								if (value != 0)
+								if (value != 0) {
 									System.out.println("Amount Successfuly Withdrawn");
-
+								
+								}
 								else
 									System.out.println("Insufficient Funds!");
 							}
@@ -207,9 +209,8 @@ public class Client {
 							break;
 						case 5:
 
-							// service.PrintTransaction(account);
+							acservice.printTransaction();
 							break;
-
 						case 6:
 							login = false;
 						}

@@ -33,8 +33,8 @@ public class AccountService implements IAccountService {
 		return dao.FundTransfer(accountNumber, amount);
 	}
 
-	public void PrintTransaction(AccountDetails account) {
-		// TODO Auto-generated method stub
+	public void printTransaction() {
+		dao.printTransactions();
 
 	}
 
