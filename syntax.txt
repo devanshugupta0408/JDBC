@@ -1,0 +1,9 @@
+CREATE  TABLE `fullstack`.`Wallet` (
+  `name` INT NULL ,
+  `age` INT NULL ,
+  `emailID` VARCHAR(45) NULL ,
+  `password` VARCHAR(45) NULL ,
+  `mobileNo` VARCHAR(45) NULL ,
+  `gender` VARCHAR(45) NULL ,
+  `balance` INT NULL ,
+  `transactions` VARCHAR(45) NULL );
